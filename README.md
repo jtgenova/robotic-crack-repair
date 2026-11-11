@@ -4,10 +4,6 @@ Website for **Real-Time Vision-Based Adaptive Robotics for Autonomous Crack Repa
 
 Static HTML, CSS, and JavaScript; no build step or external runtime dependencies. Uses relative paths for GitHub Pages.
 
-## Preview
-
-From this directory run `python -m http.server 8000`, then open http://localhost:8000. You can also open `index.html` directly; without clipboard access the citation button selects the text for manual copying.
-
 ## Sources
 
 - Paper details, abstract, system overview, and results follow the supplied 14-page editor proof `CP-CPENG-7737_Copy.pdf`.
