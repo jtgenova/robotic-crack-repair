@@ -1,490 +1,80 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
-
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
-
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+  <meta name="description" content="Robotic crack repair with RGB-D perception, laser profiling, lag-aware feedback, and incremental learning. Joshua Genova and Vedhus Hoskere, University of Houston.">
+  <meta name="theme-color" content="#176c66">
+  <title>Real-Time Vision-Based Adaptive Robotics for Autonomous Crack Repair</title>
+  <link rel="icon" href="static/images/crack-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="static/css/paper.css">
+  <script src="static/js/paper.js" defer></script>
 </head>
 <body>
-
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav>
-
-
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
-            <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
-            </span>
-          </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
-          </div>
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="navigation" aria-label="Page sections"><a class="wordmark" href="#top">Robotic crack repair</a><div><a href="#overview">System</a><a href="#results">Results</a><a href="#paver">Paver testbed</a></div></nav>
+<main id="main">
+<header class="paper-header container" id="top">
+  <p class="eyebrow">University of Houston</p>
+  <h1>Real-Time Vision-Based Adaptive Robotics for Autonomous Crack Repair in Civil Infrastructure</h1>
+  <p class="authors"><a href="https://orcid.org/0009-0002-2739-7661">Joshua Genova</a><sup>1</sup><span aria-hidden="true"> · </span><a href="https://orcid.org/0000-0003-2118-5975">Vedhus Hoskere</a><sup>2</sup></p>
+  <p class="affiliations"><sup>1</sup>Electrical and Computer Engineering &nbsp; <sup>2</sup>Civil and Environmental Engineering<br>University of Houston</p>
+  <p class="venue">Journal of Computing in Civil Engineering · Publication pending</p>
+  <div class="links"><a class="button primary" href="https://www.researchgate.net/publication/417766419_Real-Time_Vision-Based_Adaptive_Robotics_for_Autonomous_Crack_Repair_in_Civil_Infrastructure">Paper (ResearchGate) ↗</a><a class="button" href="#demo">Watch demo ↓</a><a class="button" href="#citation">Cite this work</a></div>
+  <p class="lead">A robot that sees the crack, measures the fill, and adapts its deposition as it moves.</p>
+</header>
+<section class="container demo" id="demo" aria-label="Research demonstration">
+  <video controls playsinline preload="metadata" poster="static/images/demo-poster.jpg" aria-label="One-minute robotic crack repair demonstration, silent with on-screen captions"><source src="static/videos/crack-repair-demo.mp4" type="video/mp4"><track kind="captions" src="static/videos/crack-repair-demo.vtt" srclang="en" label="English">Your browser does not support embedded video. <a href="static/videos/crack-repair-demo.mp4">Download the demonstration.</a></video>
+  <p class="caption">One-minute demonstration · Actual robot footage with on-screen explanations · Silent video. <a href="#video-transcript">Read the transcript</a>.</p>
+  <details id="video-transcript"><summary>Video transcript</summary><p>Joshua Genova and Vedhus Hoskere present a robotic crack-repair system at the University of Houston. The robot scans the crack geometry, then fills the crack using laser feedback to update its deposition model and travel speed. The concrete-paver target recess is 3.175 mm, with reported recess-error MAE of 0.68 mm. In separate 3D-printed crack experiments, mean depth-error MAEs across six trials are 2.54 mm for PI, 2.25 mm for IMC, 2.27 mm for static calibration, and 0.88 mm for IELM. The IELM trial range is 0.49–1.23 mm. Cracks were precleaned and mobile positioning was manual.</p></details>
+</section>
+<div class="container highlights" aria-label="Reported experimental highlights">
+  <div><strong>9.36–15.11<span>%</span></strong><p>IELM fill-error MAE<br>Six standardized trials · Table 6</p></div>
+  <div><strong>0.49–1.23<span> mm</span></strong><p>IELM depth-error MAE<br>Six standardized trials · Table 7</p></div>
+  <div><strong>0.68<span> mm</span></strong><p>Recess-error MAE<br>Concrete-paver testbed · Table 8</p></div>
+</div>
+<section class="container reading section" id="abstract">
+  <p class="eyebrow">The paper</p><h2>Abstract</h2>
+  <p>Manual crack repair in civil infrastructure is labor-intensive, inconsistent, and difficult to adapt to varying crack geometry and material behavior during execution. Existing robotic systems improve repeatability but often rely on open-loop operation or fixed calibration, limiting their ability to respond to delayed geometric feedback and process drift during continuous repair. This paper presents a closed-loop robotic framework for autonomous crack filling that integrates hierarchical multimodal sensing for repair-accurate crack localization, lag-aware synchronization of delayed laser measurements with prior deposition commands, and an incremental extreme learning machine (IELM) for online adaptation of the deposition model. Using synchronized in-process geometric measurements, the proposed system updates the speed–area relationship online to compensate for changing crack geometry and sealant rheology during motion. Experimental validation on standardized specimens and textured concrete pavers shows that the method reduces fill-error mean absolute error (MAE) to 9.36%–15.11%, outperforming static calibration and classical feedback baselines, while also achieving standards-compliant recessed filling on realistic pavement surfaces. The results demonstrate that lag-aware feedback and real-time model adaptation can enable robust autonomous crack repair under realistic operating variability.</p>
+</section>
+<section class="band" id="overview"><div class="container section">
+  <p class="eyebrow">01 / System overview</p><h2>From visual detection to measured repair</h2>
+  <p class="section-intro">RGB-D perception finds the crack. Laser profiling refines its geometry. A learned deposition model selects robot speed, then updates using measurements of the material actually deposited.</p>
+  <figure class="wide-figure"><a href="static/images/system-overview.webp"><img src="static/images/system-overview.webp" width="1600" height="676" loading="lazy" alt="Paper Figure 2: extrusion calibration, visual crack extraction, laser refinement, and adaptive filling on the mobile robot."></a><figcaption>System architecture and experimental platform. Figure 2 from the paper.</figcaption></figure>
+  <ol class="pipeline"><li><span>01</span><strong>Detect</strong>RGB-D image and crack segmentation</li><li><span>02</span><strong>Refine</strong>Laser path and cross-sectional profile</li><li><span>03</span><strong>Deposit</strong>Speed selected from the inverse model</li><li><span>04</span><strong>Measure &amp; adapt</strong>Lag-aligned feedback and IELM update</li></ol>
+  <p class="caption">Further details on sensing, control, and implementation are available <a href="https://www.researchgate.net/publication/417766419_Real-Time_Vision-Based_Adaptive_Robotics_for_Autonomous_Crack_Repair_in_Civil_Infrastructure">in the paper on ResearchGate</a>.</p>
+</div></section>
+<section class="container section" id="results">
+  <p class="eyebrow">02 / Experimental results</p><h2>More consistent filling across both crack patterns</h2>
+  <p class="section-intro">Two repeatable 3D-printed crack patterns, three trials each, and four control strategies. IELM achieved the lowest fill-error and depth-error MAE in every reported trial. The target for these experiments was flush filling at 0 mm depth.</p>
+  <div class="results-panel"><div class="chart-heading"><div><h3 id="chart-title">Fill-error MAE (%)</h3><p>Mean of six trial MAEs · Lower is better</p></div><div class="metric-switch" role="group" aria-label="Comparison metric"><button type="button" data-metric="fill" aria-pressed="true">Fill error (%)</button><button type="button" data-metric="depth" aria-pressed="false">Depth error (mm)</button></div></div>
+    <div id="comparison-chart" aria-live="polite" aria-atomic="true">
+      <div class="bar-row"><span>PI</span><div class="bar-track"><div class="bar" style="--bar-width:82.6%"></div></div><strong>33.04%</strong></div>
+      <div class="bar-row"><span>IMC</span><div class="bar-track"><div class="bar" style="--bar-width:75.45%"></div></div><strong>30.18%</strong></div>
+      <div class="bar-row"><span>Static</span><div class="bar-track"><div class="bar" style="--bar-width:68.3%"></div></div><strong>27.32%</strong></div>
+      <div class="bar-row ours"><span>IELM</span><div class="bar-track"><div class="bar" style="--bar-width:30.425%"></div></div><strong>12.17%</strong></div>
+    </div><p class="caption" id="chart-source">Calculated from Table 6. Unweighted means of trial MAEs, rather than pooled waypoint errors. See Tables 6 and 7 in the paper for full trial results.</p>
   </div>
 </section>
-
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
-    </div>
-  </div>
+<section class="band" id="paver"><div class="container section">
+  <p class="eyebrow">03 / Concrete-paver testbed</p><h2>A recessed finish on a textured surface</h2>
+  <p class="section-intro">A separate laboratory test used concrete pavers and a target recess of 3.175 mm below the surface. The paper reports 0.6845 mm recess-error MAE across 19 measured waypoints.</p>
+  <div class="two-columns align-center"><figure><a href="static/images/paver.webp"><img src="static/images/paver.webp" width="1201" height="855" loading="lazy" alt="Mobile-mounted UR10e repairing concrete pavers, with close-ups of the laser scan and filled crack."></a><figcaption>Concrete-paver setup and repaired crack. Figure 16.</figcaption></figure><div><h3>Measured geometry</h3><dl class="paver-results"><div><dt>Target recess</dt><dd>3.175 mm</dd></div><div><dt>Measured final recesses</dt><dd>2.20–4.51 mm</dd></div><div><dt>Recess-error MAE</dt><dd>0.6845 mm</dd></div><div><dt>Sampled waypoints</dt><dd>19</dd></div></dl><p class="caption">Table 8 and accompanying text. All 19 measured recesses lie within the 1.5875–4.7625 mm interval cited in the paper from FAA AC 150/5370-10H, Item P-605. This result evaluates sampled fill geometry.</p></div></div>
+  <aside class="scope"><h3>Experimental scope</h3><p>Validation took place in a controlled laboratory with precleaned cracks. Mobile positioning was manually teleoperated; crack sensing and filling were automated. Future work includes autonomous mobile navigation, environmental robustness, adhesion, and internal void assessment.</p></aside>
+</div></section>
+<section class="container section reading" id="citation"><div class="citation-heading"><h2>Citation</h2><button type="button" id="copy-citation" class="button" hidden>Copy BibTeX</button></div>
+<pre><code id="bibtex">@article{genova2026crackrepair,
+  title = {Real-Time Vision-Based Adaptive Robotics for
+           Autonomous Crack Repair in Civil Infrastructure},
+  author = {Genova, Joshua and Hoskere, Vedhus},
+  journal = {Journal of Computing in Civil Engineering},
+  year = {2026},
+  doi = {10.1061/JCCEE5.CPENG-7737},
+  url = {https://www.researchgate.net/publication/417766419_Real-Time_Vision-Based_Adaptive_Robotics_for_Autonomous_Crack_Repair_in_Civil_Infrastructure},
+  note = {Publication pending}
+}</code></pre><p id="copy-status" class="caption" role="status"></p>
 </section>
-
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <!--/ Paper video. -->
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <!--/ Matting. -->
-
-    <!-- Animation. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
-        </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
-        </div>
-        <br/>
-        <!--/ Interpolating. -->
-
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
-      </div>
-    </div>
-    <!--/ Animation. -->
-
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Concurrent Work. -->
-
-  </div>
-</section>
-
-
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
-}</code></pre>
-  </div>
-</section>
-
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-
+</main>
+<footer><div class="container"><p>Joshua Genova &amp; Vedhus Hoskere · University of Houston</p><p>Website adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies template</a>, with layout inspiration from <a href="https://joshuakgao.github.io/viewdelta/">ViewDelta</a>. Website template: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Paper and paper figures © 2026 ASCE.</p></div></footer>
 </body>
 </html>

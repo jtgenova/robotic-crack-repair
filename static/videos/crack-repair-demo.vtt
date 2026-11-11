@@ -1,0 +1,38 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.000
+Real-Time Vision-Based Adaptive Robotics for Autonomous Crack Repair in Civil Infrastructure
+Joshua Genova and Vedhus Hoskere | University of Houston
+
+2
+00:00:04.000 --> 00:00:09.000
+A robot that senses and fills cracks.
+Actual laboratory demonstration
+
+3
+00:00:09.000 --> 00:00:17.000
+Scanning the crack geometry.
+The laser refines the path and measures the crack profile.
+
+4
+00:00:17.000 --> 00:00:31.000
+Filling the crack and measuring the deposited material.
+Target recess: 3.175 mm (1/8 in.) | FAA AC 150/5370-10H, Item P-605
+Measured recess-error MAE: 0.68 mm
+
+5
+00:00:31.000 --> 00:00:45.000
+Fully autonomous filling with real-time adaptive corrections.
+Laser feedback updates the deposition model and robot speed.
+
+6
+00:00:45.000 --> 00:00:55.000
+IELM depth-error MAE: 0.49-1.23 mm.
+3D-printed crack tests | Target: 0 mm (flush fill) | Paper, Figure 15 and Table 7
+MAE = mean absolute error
+
+7
+00:00:55.000 --> 00:01:00.000
+Joshua Genova and Vedhus Hoskere
+University of Houston
